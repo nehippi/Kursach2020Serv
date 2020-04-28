@@ -1,47 +1,49 @@
 package noteRecognizer;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class Equalizer implements Runnable {
-    ConcurrentLinkedQueue<Double> freqs;
-    ConcurrentLinkedQueue<Double> equlizedFreqs;
-    Thread thread;
+public class Equalizer {
 
-    public Equalizer(ConcurrentLinkedQueue<Double> freqs, ConcurrentLinkedQueue<Double> equlizedFreqs) {
-        this.freqs = freqs;
-        this.equlizedFreqs = equlizedFreqs;
+
+    public static ArrayList<Double> getEqalizedFreqs(ArrayList<Double> list) {
+        int window = 3;
+        for (int i = 1; i < list.size()-1; i++) {
+
+                list.set(i, getMediana((list.subList(i - 1, i+1))));
+
+        }
+        return list;
     }
 
-    public void start() {
-        this.thread = new Thread(this);
-        this.thread.start();
 
-        System.out.println("Equalizer started");
-    }
-
-    public void stop() {
-        this.thread = null;
-    }
-
-    @Override
-    public void run() {
-        double a;
-        double b;
-        while (thread != null) {
-            while (freqs.size() > 2) {
-                a = freqs.poll();
-                b = freqs.peek();
-
-                if (b > a) {
-                    for (double i = a; i < b; i += 3) {
-                        equlizedFreqs.add(i);
-                    }
-                } else {
-                    for (double i = a; i > b; i -= 3) {
-                        equlizedFreqs.add(i);
-                    }
-                }
-
+    private Double getMax(List<Double> list) {
+        Double max = Double.MIN_VALUE;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) > max) {
+                max = list.get(i);
             }
         }
+        return max;
+    }
+
+
+    private Double getMin(ArrayList<Double> list) {
+        Double min = Double.MAX_VALUE;
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) < min) {
+                min = list.get(i);
+            }
+        }
+        return min;
+    }
+
+    private static Double getMediana(List<Double> list) {
+        double sum = 0;
+        for (int i = 0; i < list.size(); i++) {
+            sum += list.get(i);
+        }
+        return sum / list.size();
     }
 }

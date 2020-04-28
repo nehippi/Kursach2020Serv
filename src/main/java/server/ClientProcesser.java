@@ -41,8 +41,10 @@ public class ClientProcesser implements Runnable {
             String outAudio = number + "audioWAV.wav";
             readFromSocketConvertToWav(dis,outAudio);
             readFromSocketConvertToWav(dis,outEtalon);
-            Processer processer=new Processer();
-            ArrayList<Integer> notes = processer.getRecognizedNotes(new File(outAudio),new File(outEtalon));
+
+            ArrayList<Integer> notes = Processer.getRecognizedNotes(new File(outAudio),new File(outEtalon));
+            System.out.println(notes);
+
             System.out.println("byte recived");
             client.shutdownInput();
             client.shutdownOutput();
@@ -71,7 +73,7 @@ public class ClientProcesser implements Runnable {
             if (outAudioWav.exists()) {
                 outAudioWav.delete();
             }
-            String exeQuery = "ffmpeg -i " + audio.getAbsolutePath() + " -acodec pcm_f32le " + outAudioWav.getAbsolutePath();
+            String exeQuery = "ffmpeg -i " + audio.getAbsolutePath() + " -acodec pcm_s32le " + outAudioWav.getAbsolutePath();
             Process process=Runtime.getRuntime().exec(exeQuery);
             while(process.isAlive()){
 

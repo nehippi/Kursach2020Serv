@@ -1,12 +1,16 @@
 package server;
 
+import noteRecognizer.Processer;
+
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 public class MainServer {
 	 
@@ -15,7 +19,13 @@ public class MainServer {
 		int clientCounter=0;
 		ServerSocket server = new ServerSocket(8080, 10, InetAddress.getByName("192.168.1.240"));
         System.out.println("server started");
-		
+
+//        String outEtalon = "testwaw1.wav";
+//		String outAudio = 1 + "audioWAV.wav";
+//		Processer processer=new Processer();
+//		ArrayList<Integer> notes = processer.getRecognizedNotes(new File(outAudio),new File(outEtalon));
+
+//		System.out.println(notes);
 		while(true) {
 			Socket client=server.accept();
 			System.out.println("client connected");
@@ -29,7 +39,7 @@ public class MainServer {
 			clientThread.start();
 
 		}
-		
+
 	}
 
 

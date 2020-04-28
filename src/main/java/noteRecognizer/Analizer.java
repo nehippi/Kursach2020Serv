@@ -1,6 +1,8 @@
 //import java.util.ConcurrentLinkedQueue;
 package noteRecognizer;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
@@ -28,14 +30,22 @@ public class Analizer {
              * ищем максимальное значение массива после ффт
              * и определяем в какой частоте оно расположено
              */
-            double freq = 0;
-            for (int i = 0; i < fftValue.length / 2; i++) {
-                if (max == fftValue[i]) {
-                    freq = i * 44100 / 1024;//возможно надо i+1 но это не точно
-                    if (freq > 260 && freq < 2000) {
-                        freqs.add(freq);//если что тут был конструктор Double
+
+            try {
+               // FileWriter fileWriter=new FileWriter("bytes.txt",true);
+                double freq = 0;
+                for (int i = 0; i < fftValue.length / 2; i++) {
+                    if (max == fftValue[i]) {
+                        freq = i * 44100 / 1024;//возможно надо i+1 но это не точно
+                        if (freq > 260 && freq < 2000) {
+                           // fileWriter.write(""+freq+'\n');
+                            freqs.add(freq);//если что тут был конструктор Double
+                        }
                     }
                 }
+               // fileWriter.flush();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
             //analize end
 

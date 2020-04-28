@@ -81,7 +81,7 @@ public class Complex {
         return new Complex(real, imag);
     }
 
-    // return a new object whose value is (this * alpha)
+    // return a new object whosevar value is (this * alpha)
     public Complex scale(double alpha) {
         return new Complex(alpha * re, alpha * im);
     }
